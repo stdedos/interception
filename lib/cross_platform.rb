@@ -38,12 +38,15 @@ class << Interception
   elsif defined?(JRuby)
 
     require 'java'
+    require 'jruby'
+
     $CLASSPATH << File.expand_path('../../ext/', __FILE__)
     java_import org.pryrepl.InterceptionEventHook
 
     def start
       old_verbose = $VERBOSE
       $VERBOSE = nil
+
       JRuby.runtime.add_event_hook(hook)
     ensure
       $VERBOSE  = old_verbose
